@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: go.mod
+
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> "${GITHUB_ENV}"
+
+    - name: Build all platforms
+      run: make build-all
+
+    - name: Test
+      run: make test
+
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        NOTES=$(awk -v ver="## [${VERSION}]" 'index($0, ver) == 1{found=1; next} found && /^## \[/{exit} found{print}' CHANGELOG.md)
+        gh release create "v${VERSION}" \
+          --title "${VERSION}" \
+          --notes "${NOTES}"
