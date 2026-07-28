@@ -76,6 +76,9 @@ func ParseConfig(logger *Logger) (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("invalid CRSH_NUM_ATTR: %w", err)
 	}
+	if n < 0 {
+		return nil, fmt.Errorf("invalid CRSH_NUM_ATTR: %d", n)
+	}
 	for i := 0; i < n; i++ {
 		attribute := Attribute{
 			Key:   os.Getenv(fmt.Sprintf("CRSH_ATTR_KEY_%d", i)),
