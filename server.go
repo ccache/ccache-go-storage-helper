@@ -121,6 +121,9 @@ func (s *Server) handleConnection(conn net.Conn) {
 			s.cancel()
 			return
 		}
+
+		// Intentionally reset the idle timer only after a request completes. Ccache
+		// cancels slow requests before IdleTimeout expires.
 		s.resetIdleTimer()
 	}
 }
