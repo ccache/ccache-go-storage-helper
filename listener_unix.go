@@ -13,8 +13,16 @@ import (
 )
 
 func createListener(endpoint string) (net.Listener, error) {
-	if err := os.Remove(endpoint); err != nil && !os.IsNotExist(err) {
-		return nil, fmt.Errorf("failed to remove existing socket: %w", err)
+	info, err := os.Lstat(endpoint)
+	if err == nil {
+		if info.Mode()&os.ModeSocket == 0 {
+			return nil, fmt.Errorf("refusing to remove non-socket endpoint: %s", endpoint)
+		}
+		if err := os.Remove(endpoint); err != nil {
+			return nil, fmt.Errorf("failed to remove existing socket: %w", err)
+		}
+	} else if !os.IsNotExist(err) {
+		return nil, fmt.Errorf("failed to inspect existing endpoint: %w", err)
 	}
 	oldMask := syscall.Umask(0077)
 	defer syscall.Umask(oldMask)
