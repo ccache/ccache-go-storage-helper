@@ -1,5 +1,7 @@
 # ccache-go-storage-helper
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/ccache/ccache-go-storage-helper.svg)](https://pkg.go.dev/github.com/ccache/ccache-go-storage-helper)
+
 [ccache remote storage helpers] are implemented as standalone programs. This
 module provides the common Go implementation of their IPC protocol and server.
 
@@ -17,6 +19,10 @@ module provides the common Go implementation of their IPC protocol and server.
 The protocol is specified in the [ccache remote storage helper specification].
 
 [ccache remote storage helper specification]: https://github.com/ccache/ccache/blob/master/doc/remote_storage_helper_spec.md
+
+## Resources
+
+- [API documentation](https://pkg.go.dev/github.com/ccache/ccache-go-storage-helper)
 
 ## Using the library
 
