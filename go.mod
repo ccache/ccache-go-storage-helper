@@ -1,7 +1,7 @@
 module github.com/ccache/ccache-go-storage-helper
 
-go 1.21
+go 1.26.0
 
-require github.com/Microsoft/go-winio v0.6.2
+require github.com/Microsoft/go-winio v0.6.4
 
-require golang.org/x/sys v0.10.0 // indirect
+require golang.org/x/sys v0.49.0 // indirect
